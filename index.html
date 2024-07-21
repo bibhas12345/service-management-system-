@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Service Booking</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" id="home-link">Home</a></li>
+                <li><a href="book-history.html" id="history-link">Book History</a></li>
+                <li><a href="" id="history-link">Login/Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="services">
+            <h2>Available Services</h2>
+            <div class="service-option">
+                <a href="ac-appliances.html">AC & Appliances Repair</a>
+            </div>
+            <div class="service-option">
+                <a href="house-cleaning.html">House Cleaning</a>
+            </div>
+            <div class="service-option">
+                <a href="vehicle-repair.html">Vehicle Repair Service</a>
+            </div>
+            <div class="service-option">
+                <a href="product-pickup.html">Product Pickup & Drop Service</a>
+            </div>
+            
+        </section>
+    </main>
+
+ 
+    <script>
+        function setActivePage() {
+            const path = window.location.pathname;
+            const filename = path.substring(path.lastIndexOf('/') + 1);
+
+            // Get all links and remove the active class
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+
+            // Add active class to the correct link
+            if (filename === 'index.html' || filename === '') {
+                document.getElementById('home-link').classList.add('active');
+            } else if (filename === 'book-history.html') {
+                document.getElementById('history-link').classList.add('active');
+            }
+        }
+
+        window.onload = setActivePage;
+    </script>
+</body>
+</html>

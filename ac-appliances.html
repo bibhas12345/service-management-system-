@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC & Appliances Repair</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Service Booking</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="book-history.html">Book History</a></li>
+                <li><a href="" id="history-link">Login/Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="ac-appliances">
+            <h2>AC & Appliances Repair</h2>
+            <form id="ac-repair-form">
+                <label for="sub-service">Select Sub-Service:</label>
+                <select id="sub-service">
+                    <option value="ac-repair">AC Repair</option>
+                    <option value="tv-repair">TV Repair</option>
+                    <option value="fridge-repair">Fridge Repair</option>
+                    <option value="washing-machine-repair">Washing Machine Repair</option>
+                </select>
+
+                <label for="date-slot">Date/Slot:</label>
+                <input type="datetime-local" id="date-slot" required>
+
+                <label for="address">Address:</label>
+                <textarea id="address" maxlength="100" required></textarea>
+
+                <label for="vendor">Vendor:</label>
+                <select id="vendor" required>
+                    <option value="vendor1">Vendor 1</option>
+                    <option value="vendor2">Vendor 2</option>
+                    <option value="vendor3">Vendor 3</option>
+                </select>
+
+                <label for="amount">Amount:</label>
+                <input class="amount" type="text" id="amount" value="1000" readonly>
+
+                <button type="submit">Confirm Booking</button>
+            </form>
+
+            <div id="confirmation-message" style="display:none;">
+                <h3 class="congo">Service Booked Successfully✅</h3>
+                <p id="confirmation-details"></p>
+            </div>
+        </section>
+    </main>
+
+   
+    <script>
+        document.getElementById('ac-repair-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Generate random Service ID
+            const serviceId = 'SID-' + Math.floor(Math.random() * 10000);
+
+            // Get form values
+            const subService = document.getElementById('sub-service').value;
+            const dateSlot = document.getElementById('date-slot').value;
+            const address = document.getElementById('address').value;
+            const vendor = document.getElementById('vendor').value;
+            const amount = document.getElementById('amount').value;
+
+            // Create confirmation message
+            const confirmationMessage = `
+                <strong>Service ID:</strong> ${serviceId} <br>
+                <strong>Sub-Service:</strong> ${subService} <br>
+                <strong>Date/Slot:</strong> ${dateSlot} <br>
+                <strong>Address:</strong> ${address} <br>
+                <strong>Vendor:</strong> ${vendor} <br>
+                <strong>Amount:</strong> ${amount}
+            `;
+
+            // Display confirmation message
+            document.getElementById('confirmation-message').style.display = 'block';
+            document.getElementById('confirmation-details').innerHTML = confirmationMessage;
+
+            // Store the booking in localStorage for book history
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push({
+                serviceId,
+                subService,
+                dateSlot,
+                address,
+                vendor,
+                amount
+            });
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+        });
+    </script>
+</body>
+</html>

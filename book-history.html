@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book History</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Service Booking</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" id="home-link">Home</a></li>
+                <li><a href="book-history.html" id="history-link">Book History</a></li>
+                <li><a href="" id="history-link">Login/Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="book-history">
+            <h2>Booking History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service ID</th>
+                        <th>Service Type</th>
+                        <th>Date/Slot</th>
+                        <th>Address</th>
+                        <th>Vendor</th>
+                        <th>Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <!-- Booking history will be dynamically added here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Service Booking</p>
+    </footer>
+
+    <script>
+        function loadBookingHistory() {
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const tableBody = document.getElementById('history-table-body');
+
+            tableBody.innerHTML = ''; // Clear existing entries
+
+            bookings.forEach((booking, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.serviceId}</td>
+                    <td>${booking.serviceType || booking.subService || booking.cleaningType || booking.vehicleType || booking.productType}</td>
+                    <td>${booking.dateSlot}</td>
+                    <td>${booking.address}</td>
+                    <td>${booking.vendor}</td>
+                    <td>${booking.amount}</td>
+                    <td><button class="delete" onclick="deleteBooking(${index})">Delete</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function deleteBooking(index) {
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.splice(index, 1); // Remove the selected booking
+            localStorage.setItem('bookings', JSON.stringify(bookings)); // Update localStorage
+            loadBookingHistory(); // Reload booking history
+        }
+
+        function setActivePage() {
+            const path = window.location.pathname;
+            const filename = path.substring(path.lastIndexOf('/') + 1);
+
+            // Get all links and remove the active class
+            document.querySelectorAll('nav ul li a').forEach(link => link.classList.remove('active'));
+
+            // Add active class to the correct link
+            if (filename === 'index.html' || filename === '') {
+                document.getElementById('home-link').classList.add('active');
+            } else if (filename === 'book-history.html') {
+                document.getElementById('history-link').classList.add('active');
+            }
+        }
+
+        window.onload = function() {
+            loadBookingHistory();
+            setActivePage();
+        };
+    </script>
+</body>
+</html>
